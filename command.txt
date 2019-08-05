@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=3 nohup python main.py --root_path ./data --video_path kuoda_feihou_png --annotation_path medicine_01.json --result_path results --dataset medicine --n_classes 400 --n_finetune_classes 4 --pretrain_path pretrained/resnext-101-kinetics.pth --ft_begin_index 0 --model resnext --model_depth 101 --resnet_shortcut B --batch_size 16 --n_threads 0 --checkpoint 5 &
