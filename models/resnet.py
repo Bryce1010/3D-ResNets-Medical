@@ -41,10 +41,12 @@ class BasicBlock(nn.Module):
     def __init__(self, inplanes, planes, stride=1, downsample=None):
         super(BasicBlock, self).__init__()
         self.conv1 = conv3x3x3(inplanes, planes, stride)
-        self.bn1 = nn.BatchNorm3d(planes)
+        self.bn1=nn.GroupNorm(16,planes)
+        # self.bn1 = nn.BatchNorm3d(planes)
         self.relu = nn.ReLU(inplace=True)
         self.conv2 = conv3x3x3(planes, planes)
-        self.bn2 = nn.BatchNorm3d(planes)
+        self.bn2=nn.GroupNorm(16,planes)
+        # self.bn2 = nn.BatchNorm3d(planes)
         self.downsample = downsample
         self.stride = stride
 
@@ -73,12 +75,15 @@ class Bottleneck(nn.Module):
     def __init__(self, inplanes, planes, stride=1, downsample=None):
         super(Bottleneck, self).__init__()
         self.conv1 = nn.Conv3d(inplanes, planes, kernel_size=1, bias=False)
-        self.bn1 = nn.BatchNorm3d(planes)
+        # self.bn1 = nn.BatchNorm3d(planes)
+        self.bn1=nn.GroupNorm(16,planes)
         self.conv2 = nn.Conv3d(
             planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
-        self.bn2 = nn.BatchNorm3d(planes)
+        #self.bn2 = nn.BatchNorm3d(planes)
+        self.bn2=nn.GroupNorm(16,planes)
         self.conv3 = nn.Conv3d(planes, planes * 4, kernel_size=1, bias=False)
-        self.bn3 = nn.BatchNorm3d(planes * 4)
+        # self.bn3 = nn.BatchNorm3d(planes * 4)
+        self.bn3=nn.GroupNorm(16,planes*4)
         self.relu = nn.ReLU(inplace=True)
         self.downsample = downsample
         self.stride = stride
@@ -124,7 +129,8 @@ class ResNet(nn.Module):
             stride=(1, 2, 2),
             padding=(3, 3, 3),
             bias=False)
-        self.bn1 = nn.BatchNorm3d(64)
+        # self.bn1 = nn.BatchNorm3d(64)
+        self.bn1=nn.GroupNorm(16,64)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool3d(kernel_size=(3, 3, 3), stride=2, padding=1)
         self.layer1 = self._make_layer(block, 64, layers[0], shortcut_type)
